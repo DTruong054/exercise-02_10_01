@@ -1,11 +1,18 @@
 <?php
+    session_start();
     require_once("inc_onlinestoresDB.php");
     require_once("class_onlineStore.php");
+    $storeID = "COFFEE";
     if (class_exists("OnlineStore")) {
-        $Store = new OnlineStore();
-    } else {
-        $errorMessage[] = "The <em>OnlineStore</em> class isn't available";
-        $Store = NULL;
+        if (isset($_SESSION['currentStore'])) {
+            echo "Unserializing new object.<br>";
+            $Store = unserialize($_SESSION['currentStore']);
+        } 
+        else {
+            echo "Instantinating new object.<br>";
+            $Store = new OnlineStore();
+        }
+        $Store->setStoreID($storeID);
     }
     
 ?>
@@ -41,6 +48,7 @@
                 printf("<td>$%.2f</td></tr>\n", $row['price']);
             }
             echo "</table>\n";
+            $_SESSION['currentStore'] = serialize($Store);
 
         }
     }
@@ -53,8 +61,8 @@
 </body>
 </html>
 <?php
-    if (!$DBConnect->connect_error) {
-        echo "<p>Closing Database <em>$DBName</em>.</p><br>\n";
-        $DBConnect->close();
-    }
+    // if (!$DBConnect->connect_error) {
+    //     echo "<p>Closing Database <em>$DBName</em>.</p><br>\n";
+    //     $DBConnect->close();
+    // }
 ?>
