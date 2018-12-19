@@ -3,6 +3,7 @@
     require_once("inc_onlinestoresDB.php");
     require_once("class_onlineStore.php");
     $storeID = "COFFEE";
+    $storeInfo = array();
     if (class_exists("OnlineStore")) {
         if (isset($_SESSION['currentStore'])) {
             echo "Unserializing new object.<br>";
@@ -13,6 +14,10 @@
             $Store = new OnlineStore();
         }
         $Store->setStoreID($storeID);
+        $storeInfo = $Store->getStoreInformation();
+        echo "<pre>";
+        print_r($storeInfo);
+        echo "</pre>";
     }
     
 ?>
@@ -23,6 +28,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Gourmet Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="<?php echo $storeInfo['cssFile']?>">
 </head>
 <body>
     <h1>Gourmet Coffee</h1>
@@ -38,9 +44,9 @@
         } else{
             echo "<table width='100%'>\n";
             echo "<tr>\n";
-            echo "<th>Product</th>";
-            echo "<th>Description</th>";
-            echo "<th>Price Each</th>";
+            echo "<th>Product</th>\n";
+            echo "<th>Description</th>\n";
+            echo "<th>Price Each</th>\n";
             echo "</tr>\n";
             while (($row = $QueryResults->fetch_assoc()) != NULL) {
                 echo "<tr><td>" . htmlentities($row['name']) . "</td>\n";
