@@ -28,10 +28,12 @@
             if($this->storeID != $storeID){
                 $this->storeID = $storeID;
                 $TableName = "inventory";
-                $SQLString = "SELECT * FROM $TableName" . "WHERE storeid='" . $this->storeID . "'";
+                $SQLString = "SELECT * FROM $TableName" . " WHERE storeid='" . $this->storeID . "'";
                 $QueryResult = $this->DBConnect->query($SQLString);
-                if (!$QueryResults) {
-                    echo "<p>Unable to execute the query.<br>" . "Error Code " . $this->DBConnect->errno . ": " . $this->DBConnect->error . "</p><br>\n";
+                if (!$QueryResult) {
+                    $errorMsgs[] = "<p>Unable to execute the query.<br>" . "Error Code" . 
+                    $this->DBConnect->errno . ": " . 
+                    $this->DBConnect->error . "</p>\n";
                     $this->storeID = "";
                 } else {
                     $inventory = array();
@@ -43,10 +45,10 @@
                         $this->inventory[$row['productID']]['price'] = $row['price'];
                         $this->shoppingCart[$row['productID']]['name'] = 0;
                     }
-                    echo "<pre>";
+                    echo "<pre>\n";
                     print_r($this->inventory);
                     print_r($this->shoppingCart);
-                    echo "</pre>";
+                    echo "</pre>\n";
                 }
             }
         }
