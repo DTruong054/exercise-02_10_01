@@ -48,7 +48,7 @@
                     echo "<pre>\n";
                     print_r($this->inventory);
                     print_r($this->shoppingCart);
-                    echo "</pre>\n";
+                    echo "</pre>\n"; 
                 }
             }
         }
